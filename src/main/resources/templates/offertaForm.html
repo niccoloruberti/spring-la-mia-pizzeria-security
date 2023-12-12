@@ -20,6 +20,7 @@
 					<input class="form-control" type="date" name="dataFine" id="dataFine" th:value="*{dataFine}">
 					<label class="form-label" for="titolo">Titolo</label>
 					<input class="form-control" type="text" name="titolo" id="titolo" th:field="*{titolo}">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 					<button type="submit" class="btn btn-success mt-3">Aggiungi</button>
 				</form>
 			</div>

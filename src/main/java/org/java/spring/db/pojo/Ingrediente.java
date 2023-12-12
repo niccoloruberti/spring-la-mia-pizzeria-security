@@ -1,5 +1,6 @@
 package org.java.spring.db.pojo;
 
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -50,6 +51,10 @@ public class Ingrediente {
 
 	public void setPizzas(List<Pizza> pizzas) {
 		this.pizzas = pizzas;
+	}
+	
+	public void setPizzas(Pizza[] pizzas) {
+		setPizzas(Arrays.asList(pizzas));
 	}
 	
 	

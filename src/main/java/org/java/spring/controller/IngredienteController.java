@@ -1,25 +1,27 @@
 package org.java.spring.controller;
 
 import java.util.List;
+
 import org.java.spring.db.pojo.Ingrediente;
 import org.java.spring.db.pojo.Pizza;
 import org.java.spring.db.serv.IngredienteService;
+import org.java.spring.db.serv.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import jakarta.validation.Valid;
 
 @Controller
 public class IngredienteController {
 
 	@Autowired
 	private IngredienteService ingredienteService;
+	
+	@Autowired
+	private PizzaService pizzaService;
 	
 	@GetMapping ("/ingredienti")
 	public String getIngredienti(Model model) {
@@ -56,9 +58,12 @@ public class IngredienteController {
 		
 		Ingrediente ingrediente = ingredienteService.findById(id);
 		
-	    for (Pizza pizza : ingrediente.getPizzas()) {
-	        pizza.rimuoviIngrediente(ingrediente);
-	    }
+		List<Pizza> pizze = ingrediente.getPizzas();
+		
+	    pizze.forEach(pizza -> {
+	    	pizza.getIngredienti().remove(ingrediente);
+	    	pizzaService.save(pizza);
+	    });
 		
 		ingredienteService.delete(ingrediente);
 		
